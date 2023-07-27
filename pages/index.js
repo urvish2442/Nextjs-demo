@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
 
       <main>
-            <p>Hello</p>
+            <h1>Welcome to NextJs!!!</h1>
       </main>
     </div>
 

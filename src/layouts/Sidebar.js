@@ -11,6 +11,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Link from 'next/link';
 import ArrowRightRoundedIcon from '@mui/icons-material/ArrowRightRounded';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/slices/authSlice';
 
 const drawerWidth = 240;
 const navLinks = [
@@ -24,9 +26,15 @@ const navLinks = [
     { text: 'MovieDb', path: '/demo/moviedb' },
     { text: 'Context', path: '/demo/contextdemo' },
     { text: 'Redux ToolKit', path: '/demo/reduxtoolkit' },
+    { text: 'Stepper', path: '/demo/stepper' },
 ];
 
 export default function Sidebar({ children }) {
+    const { isAuthenticated, token, error, username } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const logoutHandler = () => {
+        dispatch(logout());
+    };
     return (
         <>
             <Box sx={{ display: 'flex' }}>
@@ -43,7 +51,17 @@ export default function Sidebar({ children }) {
                     variant='permanent'
                     anchor='left'
                 >
-                    <Toolbar />
+                    <Toolbar className='d-flex flex-column bg-secondary-subtle'>
+                        {username && (
+                            <h3 className='mt-1'>Hello, {username}</h3>
+                        )}
+
+                        {isAuthenticated && (
+                            <button className='btn text-secondary' onClick={logoutHandler}>
+                                Logout
+                            </button>
+                        )}
+                    </Toolbar>
                     <Divider />
                     <List>
                         {navLinks.map((linkObject, index) => (
