@@ -1,22 +1,16 @@
-// pages/LoginPage.js
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { updateStepper } from '../../store/slices/stepperSlice';
-import { useEffect } from 'react';
 
 const Step2 = (props) => {
-    const stepper = useSelector((state) => state.stepper);
+    const {phone, email} = useSelector((state) => state.stepper);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log('stepper--', stepper);
-    }, [stepper]);
-
     const initialValues = {
-        phone: '',
-        email: '',
+        phone: phone,
+        email: email,
     };
 
     const phoneRegExp = /^[0-9]{10}$/;
@@ -29,8 +23,11 @@ const Step2 = (props) => {
         dispatch(updateStepper({ phone: values.phone, email: values.email }));
         setSubmitting(false);
         props.next();
-        console.log(JSON.stringify(values, null, 2));
     };
+
+    const prevHandler = () => {
+        props.prev();
+    }
 
     return (
         <div className='text-center d-flex flex-column justify-content-center'>
@@ -43,16 +40,15 @@ const Step2 = (props) => {
                             <ErrorMessage name='phone' component='div' className='text-danger text-start' />
                             <Field type='email' id='email' name='email' placeholder='Enter email' className='rounded p-2 col-xl-5 mt-3' />
                             <ErrorMessage name='email' component='div' className='text-danger text-start' />
-                            {/* <div className='d-flex justify-content-between'>
-                                <button className='btn btn-primary my-4 btn-lg ml' onClick={props?.prev}>previous</button>
-                                <button type='submit' className='btn btn-primary my-4 btn-lg '>
-                                    next
+                            <div className='d-flex justify-content-between'>
+                                <button className='btn btn-primary my-4 btn-lg' onClick={prevHandler}>
+                                    Previous
                                 </button>
-                            </div> */}
+                                <button type='submit' className='btn btn-primary my-4 btn-lg'>
+                                    Next
+                                </button>
+                            </div>
                         </div>
-                        <button type='submit' className='btn btn-primary my-4 btn-lg' >
-                            Next
-                        </button>
                     </Form>
                 </Formik>
             </div>

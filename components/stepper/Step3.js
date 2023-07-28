@@ -1,4 +1,3 @@
-// pages/LoginPage.js
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,16 +6,12 @@ import { updateStepper } from '../../store/slices/stepperSlice';
 import { useEffect } from 'react';
 
 const Step3 = (props) => {
-    const stepper = useSelector((state) => state.stepper);
+    const {password} = useSelector((state) => state.stepper);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log('stepper--', stepper);
-    }, [stepper]);
-
     const initialValues = {
-        password: '',
-        confirmPassword: '',
+        password: password,
+        confirmPassword: password,
     };
     const validationSchema = Yup.object({
         password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
@@ -29,8 +24,11 @@ const Step3 = (props) => {
         dispatch(updateStepper({ password: values.password }));
         setSubmitting(false);
         props.next();
-        // console.log(JSON.stringify(values, null, 2));
     };
+
+    const prevHandler = () => {
+        props.prev();
+    }
 
     return (
         <div className='text-center d-flex flex-column justify-content-center'>
@@ -43,10 +41,15 @@ const Step3 = (props) => {
                             <ErrorMessage name='password' component='div' className='text-danger text-start' />
                             <Field type='password' id='confirmPassword' name='confirmPassword' placeholder='Confirm password' className='rounded p-2 col-xl-5 mt-3' />
                             <ErrorMessage name='confirmPassword' component='div' className='text-danger text-start' />
+                            <div className='d-flex justify-content-between'>
+                                <button className='btn btn-primary my-4 btn-lg' onClick={prevHandler}>
+                                    Previous
+                                </button>
+                                <button type='submit' className='btn btn-primary my-4 btn-lg'>
+                                    Next
+                                </button>
+                            </div>
                         </div>
-                        <button type='submit' className='btn btn-primary my-4 btn-lg '>
-                            Login
-                        </button>
                     </Form>
                 </Formik>
             </div>
