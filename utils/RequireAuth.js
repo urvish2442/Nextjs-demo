@@ -4,16 +4,18 @@ import { useEffect } from 'react';
 
 const RequireAuth = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const router = useRouter();  
+  const router = useRouter();
+
+  const publicRoutes = ['/user/login', '/demo/stepper' , '/demo/moviedb'];
 
   useEffect(() => {
+    if (!isAuthenticated && !publicRoutes.includes(router.pathname)) {
+      router.push('/user/login');
+    }
     if (isAuthenticated && router.pathname === '/user/login') {
-      router.push('/'); 
+      router.push('/');
     }
-    if (!isAuthenticated && router.pathname !== '/user/login') {
-      router.push('/user/login'); 
-    }
-  }, [isAuthenticated,router]);
+  }, [isAuthenticated, router]);
 
   return <>{children}</>;
 };

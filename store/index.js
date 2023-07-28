@@ -4,6 +4,7 @@ import radioReducer from './slices/radioSlice'
 import numberReducer from './slices/numberSlice'
 import textReducer from './slices/textSlice'
 import authReducer from './slices/authSlice'
+import stepperReducer from './slices/stepperSlice'
 
 export const store = configureStore ({
     reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore ({
         radio : radioReducer,
         number : numberReducer,
         text : textReducer,
-        auth : authReducer
+        auth : authReducer,
+        stepper : stepperReducer
     },
 })

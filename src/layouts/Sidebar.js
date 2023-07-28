@@ -55,7 +55,6 @@ export default function Sidebar({ children }) {
                         {username && (
                             <h3 className='mt-1'>Hello, {username}</h3>
                         )}
-
                         {isAuthenticated && (
                             <button className='btn text-secondary' onClick={logoutHandler}>
                                 Logout
